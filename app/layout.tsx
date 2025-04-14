@@ -16,6 +16,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "CodeSaga",
   description: "A coding plateform made to enhance dsa skills",
+  icons: {
+    icon: ['/favicon.ico?v=4'],
+    apple: ['/apple-touch-icon.png?v=4'],
+    shortcut: ['/apple-touch-icon.png']
+  }
 };
 
 export default function RootLayout({
