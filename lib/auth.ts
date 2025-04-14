@@ -13,7 +13,7 @@ export const NEXT_AUTH_CONFIG = {
           username: { label: 'email', type: 'text', placeholder: '' },
           password: { label: 'password', type: 'password', placeholder: '' },
         },
-        async authorize(credentials: any) {
+        async authorize(credentials) {
             const username = credentials?.username as string;
             const name = credentials?.name as string;
 
@@ -31,13 +31,13 @@ export const NEXT_AUTH_CONFIG = {
       GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID as string,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
-      }),
-               
+      }),           
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    signIn: async({user, account} : any) => {
-      if(user && user.id && account && account.providerAccountId) {
+    // @ts-expect-error
+    signIn: async({user, account}) => {
+      if(user && user.id && account && account?.providerAccountId) {
         try {
           const existingUser = await prisma.user.findUnique({
             where: {
@@ -66,12 +66,11 @@ export const NEXT_AUTH_CONFIG = {
         return false;
       }
     },
-  session: async({ session, token, user }: any) => {
-      if (session.user) {
+    // @ts-expect-error
+  session: async({ session, token }) => {
+      if (session?.user && token?.sub) {
         try {
-          console.log('token . => , , , ', token);
           const prisma = globalPrismaClient;
-          
             const existingUser = await prisma.user.findUnique({
               where: {
                 id: token.sub
@@ -86,7 +85,8 @@ export const NEXT_AUTH_CONFIG = {
               session.user.image = existingUser.image;
             }
         } catch (error) {
-          
+          console.log(error);
+          return null
         }
         session.user.id = token.sub
       }

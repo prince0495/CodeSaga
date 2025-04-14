@@ -33,7 +33,7 @@ const GettingStarted = () => {
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [mouseX, mouseY]);
 
   return (
     <div className="relative min-h-screen text-white flex flex-col items-center px-8 py-12 overflow-hidden">

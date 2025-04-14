@@ -14,7 +14,7 @@ model Friendship {
 }
 
 */
-export async function GET(req: NextRequest, {params}: any) {
+export async function GET(req: NextRequest, {params}: {params: {slug: string[]}}) {
     const param = await params;
     const userId = param.slug[0]
     try {

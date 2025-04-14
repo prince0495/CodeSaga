@@ -19,22 +19,24 @@ const GlobalUsers = () => {
   const setAllUsers = useUser(state=>state.setAllUsers)
   const friends = useUser(state=>state.friends)
   const addFriends = useUser(state=>state.addFriends)
-  const friendRequests = useUser(state=>state.friendRequests)
   const addFriendRequest = useUser(state=>state.addFriendRequest)
   const [filteredUsers, setFilteredUsers] = useState<FilterUserType[] | null>(null)
   const router = useRouter()
 
   useEffect(() => {
-    getUser()
-    getAllFriends()
-    getFriendRequests()
-    getAllUser()
-  }, [session, user])
-
-  
+    const getAllUser = async() => {
+      if(user) {
+        const res = await axios.get(`/api/friends/allusers/${user.id}`)
+        console.log('all users, ',res.data);
+        if(res.data && res.data?.length>0) {
+          setAllUsers(res.data)
+        }
+      }
+    }
+    
   async function getUser() {
     if(!user && session.data && session.data?.user) {
-      // @ts-ignore
+      // @ts-expect-error
       const res = await axios.get('/api/user/getUser/'+session.data.user.id);
       if(res.data && res.data?.id) {
         setUser(res.data)
@@ -44,56 +46,6 @@ const GlobalUsers = () => {
       }
     }
   }
-  
-  const getFilteredUsers = async() => {
-    if(user && searchName.length > 0) {
-      const res = await axios.post(`/api/friends/allusers/${user.id}`, {searchName})
-      console.log('typing done .. ', res.data);
-      if(res.data && res.data?.length >= 0) {
-        console.log('set , ', res.data);
-        
-        setFilteredUsers(res.data)
-      }
-    }
-  }
-  const getAllUser = async() => {
-    if(user) {
-      const res = await axios.get(`/api/friends/allusers/${user.id}`)
-      console.log('all users, ',res.data);
-      if(res.data && res.data?.length>0) {
-        setAllUsers(res.data)
-      }
-    }
-  }
-
-  async function sendFriendRequest(recipientId: string) {
-    
-    if(user) {      
-      const res = await axios.post(`/api/friends/sendRequest/${user.id}`, {recipientId: recipientId, requesterName: user.name})
-      if(res.data && !res.data?.message) {
-        console.log('friend request sent ', res.data);
-        if(res.data?.recipient) {
-          console.log('recipient : ' ,res.data.recipient);
-          addFriendRequest(res.data?.recipient.id, {name: res.data.recipient.name, image: res.data.recipient.image})
-        }
-      }
-      else if(res.data?.message && res.data?.message.startsWith("Already")) {
-          if(res.data?.status) {
-            if(res.data.status === 'Pending') {
-              alert('friend request was already sent to this user')
-            }
-            else {
-              alert('already friend')
-            }
-          }
-      }
-      else {
-        console.log(res.data);
-      }
-      
-    }
-  }
-  
   async function getAllFriends() {
     if(user) {
       const res = await axios.get(`/api/friends/getfriends/${user.id}`);
@@ -128,6 +80,51 @@ const GlobalUsers = () => {
           }
         }
       }
+    }
+  }
+    getUser()
+    getAllFriends()
+    getFriendRequests()
+    getAllUser()
+  }, [session, user])
+
+  const getFilteredUsers = async() => {
+    if(user && searchName.length > 0) {
+      const res = await axios.post(`/api/friends/allusers/${user.id}`, {searchName})
+      console.log('typing done .. ', res.data);
+      if(res.data && res.data?.length >= 0) {
+        console.log('set , ', res.data);
+        
+        setFilteredUsers(res.data)
+      }
+    }
+  }
+
+  async function sendFriendRequest(recipientId: string) {
+    
+    if(user) {      
+      const res = await axios.post(`/api/friends/sendRequest/${user.id}`, {recipientId: recipientId, requesterName: user.name})
+      if(res.data && !res.data?.message) {
+        console.log('friend request sent ', res.data);
+        if(res.data?.recipient) {
+          console.log('recipient : ' ,res.data.recipient);
+          addFriendRequest(res.data?.recipient.id, {name: res.data.recipient.name, image: res.data.recipient.image})
+        }
+      }
+      else if(res.data?.message && res.data?.message.startsWith("Already")) {
+          if(res.data?.status) {
+            if(res.data.status === 'Pending') {
+              alert('friend request was already sent to this user')
+            }
+            else {
+              alert('already friend')
+            }
+          }
+      }
+      else {
+        console.log(res.data);
+      }
+      
     }
   }
 

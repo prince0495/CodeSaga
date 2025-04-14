@@ -15,23 +15,6 @@ const NavUserIcon = () => {
   const setUser = useUser(state=>state.setUser)
   const router = useRouter()
 
-  async function getUserDetails() {
-    if(!user) {
-      if(session.data && session.data?.user) {
-        // @ts-ignore
-          const res = await axios.get('/api/user/getUser/'+session.data.user.id);
-          if(res.data) {
-            if(res.data?.id) {
-                setUser(res.data)
-            }
-            else {
-                console.log(res.data);
-            }
-          }
-      }
-    }
-  }
-
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -43,6 +26,22 @@ const NavUserIcon = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []); 
   useEffect(() => {
+    async function getUserDetails() {
+      if(!user) {
+        if(session.data && session.data?.user) {
+          // @ts-expect-error
+            const res = await axios.get('/api/user/getUser/'+session.data.user.id);
+            if(res.data) {
+              if(res.data?.id) {
+                  setUser(res.data)
+              }
+              else {
+                  console.log(res.data);
+              }
+            }
+        }
+      }
+    }
     getUserDetails()
   }, [session])
   

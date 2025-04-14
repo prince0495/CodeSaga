@@ -1,16 +1,16 @@
 import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, {params}: any) {
+export async function GET(req: NextRequest, {params}: {params: {slug: string[]}}) {
     const param = await params;
-    let date = new Date();
-    let currenYear = date.getUTCFullYear();
+    const date = new Date();
+    const currenYear = date.getUTCFullYear();
 
     try {
         const prisma = globalPrismaClient;
-        let yearlyActivity = [];
+        const yearlyActivity = [];
         for(let month=0; month < 12; month++) {
-            let firstDayOfMonth = new Date(Date.UTC(currenYear, month, 1));
+            const firstDayOfMonth = new Date(Date.UTC(currenYear, month, 1));
             const monthlyActivity = await prisma.monthlyActivity.findUnique({
                 where: {
                     userId_date: {

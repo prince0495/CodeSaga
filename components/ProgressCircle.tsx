@@ -21,50 +21,49 @@ const ProgressCircle = () => {
   const circumference = 100; // Defines the total circumference
   const strokeWidth = 2; // Thickness of the circular progress
 
-  async function getProgress() {
-    if (totalProblemsCount === -1) {
-      try {
-        const res = await axios.get("/api/getProgressCount");
-        const obj = await res.data;
-        const { totalCount, easyCount, mediumCount, hardCount } = obj;
-        setTotalProblemsCount(totalCount);
-        setEasyProblemsCount(easyCount);
-        setMediumProblemsCount(mediumCount);
-        setHardProblemsCount(hardCount);
-        // @ts-ignore
-        if(session.data && session.data.user && session.data.user.id) {
-          // @ts-ignore
-          const response = await axios.get('/api/getUserProgress/'+session.data.user.id);
-          // add extra check here later
-          if(response.data) {
-            console.log(response.data);
+  useEffect(() => {
+    async function getProgress() {
+      if (totalProblemsCount === -1) {
+        try {
+          const res = await axios.get("/api/getProgressCount");
+          const obj = await res.data;
+          const { totalCount, easyCount, mediumCount, hardCount } = obj;
+          setTotalProblemsCount(totalCount);
+          setEasyProblemsCount(easyCount);
+          setMediumProblemsCount(mediumCount);
+          setHardProblemsCount(hardCount);
+          // @ts-expect-error
+          if(session.data && session.data.user && session.data.user.id) {
+            // @ts-expect-error
+            const response = await axios.get('/api/getUserProgress/'+session.data.user.id);
+            // add extra check here later
+            if(response.data) {
+              console.log(response.data);
+              
+              const obj: {
+                acceptedEasy: number,
+                acceptedMedium: number,
+                acceptedHard: number,
+                acceptedSubmissions: number,
+                duplicateAcceptedSubmissions: number,
+                totalSubmissions: number,
+                duplicateTotalSubmissions: number
+            } = response.data
+              setUserEasyProblemsCount(obj.acceptedEasy)
+              setUserMediumProblemsCount(obj.acceptedMedium)
+              setUserHardProblemsCount(obj.acceptedHard)
+              setUserAcceptedSubmissions(obj.acceptedSubmissions)
+              const allAcceptedSubmissions = obj.acceptedSubmissions+obj.duplicateAcceptedSubmissions;
+              const allTotalSubmissions = obj.totalSubmissions+obj.duplicateTotalSubmissions;
+              setTotalAcceptanceRate(allTotalSubmissions === 0 ? 0 : allAcceptedSubmissions*100/allTotalSubmissions)
+            }
             
-            const obj: {
-              acceptedEasy: number,
-              acceptedMedium: number,
-              acceptedHard: number,
-              acceptedSubmissions: number,
-              duplicateAcceptedSubmissions: number,
-              totalSubmissions: number,
-              duplicateTotalSubmissions: number
-          } = response.data
-            setUserEasyProblemsCount(obj.acceptedEasy)
-            setUserMediumProblemsCount(obj.acceptedMedium)
-            setUserHardProblemsCount(obj.acceptedHard)
-            setUserAcceptedSubmissions(obj.acceptedSubmissions)
-            let allAcceptedSubmissions = obj.acceptedSubmissions+obj.duplicateAcceptedSubmissions;
-            let allTotalSubmissions = obj.totalSubmissions+obj.duplicateTotalSubmissions;
-            setTotalAcceptanceRate(allTotalSubmissions === 0 ? 0 : allAcceptedSubmissions*100/allTotalSubmissions)
           }
-          
+        } catch (error) {
+          console.error("Failed to fetch progress data", error);
         }
-      } catch (error) {
-        console.error("Failed to fetch progress data", error);
       }
     }
-  }
-
-  useEffect(() => {
     getProgress();
   }, [session]);
 

@@ -30,32 +30,31 @@ const CalendarGrid = () => {
   const monthMap = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   useEffect(() => {
-    getMonthlyActivity();
-  }, [session]);
-
-  async function getMonthlyActivity() {
-    if (session && session.data && session.data.user) {
-      try {
-        // @ts-ignore
-        const res = await axios.get(`/api/monthlyActivity/${session.data.user.id}`);
-        if (res.data && res.data.dailyActivity) {
-          for (const activity of res.data.dailyActivity) {
-            const dateStr = new Date(activity.date).toISOString().split("T")[0];
-            addMonthlySubmission(dateStr, activity.acceptedSubmissions);
+    async function getMonthlyActivity() {
+      if (session && session.data && session.data.user) {
+        try {
+          // @ts-expect-error
+          const res = await axios.get(`/api/monthlyActivity/${session.data.user.id}`);
+          if (res.data && res.data.dailyActivity) {
+            for (const activity of res.data.dailyActivity) {
+              const dateStr = new Date(activity.date).toISOString().split("T")[0];
+              addMonthlySubmission(dateStr, activity.acceptedSubmissions);
+            }
           }
+        } catch (error) {
+          console.error("Failed to fetch monthly activity:", error);
         }
-      } catch (error) {
-        console.error("Failed to fetch monthly activity:", error);
       }
     }
-  }
+    getMonthlyActivity();
+  }, [session]);
 
   return (
     <div className="flex-col justify-center items-center w-full p-3 bg-[#1c1c1c] shadow-lg rounded-2xl max-w-lg">
       <div className="text-center text-3xl">{monthMap[date.getMonth()]}, {date.getFullYear()}</div>
       <div className="grid grid-cols-7 gap-3 p-3 rounded-2xl">
         {Array.from({ length: days }, (_, index) => {
-          let day = index+1;
+          const day = index+1;
           const fullDate = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), day)).toISOString().split("T")[0];
           const isSubmitted = monthlySubmissionsMap[fullDate];
 

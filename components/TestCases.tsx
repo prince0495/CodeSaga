@@ -9,16 +9,14 @@ const TestCases = ({ problemURL, examples }: { problemURL: string; examples: Exa
   const responseLoading = useRunCallbackStore((state) => state.responseLoading);
   let isAccepted = false;
   let passed = 0;
-  let total = 0;
   if(runResponse) {
     if(runResponse.status.includes('Accepted')) {
       passed = 10e9;
       isAccepted = true;
     }
     else if(runResponse.status.includes("Wrong Answer")) {
-      let str = runResponse.status.split(": ")[1];
+      const str = runResponse.status.split(": ")[1];
       passed = parseInt(str.split('/')[0])
-      total = parseInt(str.split('/')[1])
       if(passed >= examples.length) {
         isAccepted = true;
       }

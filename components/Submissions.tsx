@@ -38,12 +38,14 @@ const Submissions = ({ problemURL }: { problemURL: string }) => {
     setError(null);
 
     try {
-      // @ts-ignore
+      // @ts-expect-error
       const res = await axios.get(`/api/submissions/${session.user.id}/${currentLanguage}/${problemURL}`);
       setSubmissions(res.data || []);
       console.log(res.data);
       
     } catch (err) {
+      console.log(err);
+      
       setError("Failed to load submissions. Please try again.");
     } finally {
       setLoading(false);
@@ -101,25 +103,6 @@ const Submissions = ({ problemURL }: { problemURL: string }) => {
       </div>
 
       {/* Code Modal */}
-      {/* {selectedSubmission && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50"
-          onClick={() => setSelectedSubmission(null)}
-        >
-          <div
-            className="bg-gray-900 p-6 rounded-lg w-full max-w-3xl relative shadow-lg"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button className="absolute top-2 right-2 text-white text-lg" onClick={() => setSelectedSubmission(null)}>
-              ✕
-            </button>
-            <h3 className="text-lg font-semibold text-white mb-4">Submission Code</h3>
-            <pre className="bg-gray-800 p-4 rounded-lg text-gray-300 overflow-auto max-h-[70vh] whitespace-pre-wrap break-words">
-              <code>{selectedSubmission}</code>
-            </pre>
-          </div>
-        </div>
-      )} */}
       {selectedSubmission && (
   <div
     className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50"

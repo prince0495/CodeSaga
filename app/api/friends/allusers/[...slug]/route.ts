@@ -2,7 +2,7 @@ import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 const prisma = globalPrismaClient;
-export async function GET(req: NextRequest, {params}: any) {
+export async function GET(req: NextRequest, {params}: {params: {slug: string[]}}) {
     const param = await params;
     try {
         const users = await prisma.user.findMany({
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest, {params}: any) {
         
     }
 }
-export async function  POST(req: NextRequest, {params}: any) {
+export async function  POST(req: NextRequest, {params}: {params: {slug: string[]}}) {
     const param = await params;
     const body = await req.json()
     try {

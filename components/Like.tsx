@@ -27,7 +27,7 @@ const Like = ({problemURL}: {problemURL: string}) => {
         }
         async function alreadyDidThat() {
             if(session.data?.user) {
-                // @ts-ignore
+                // @ts-expect-error
                 const res = await axios.post('/api/user/alreadydid', {userId: session.data.user.id, problemURL: problemURL})
                 if(res.data?.alreadyLiked !== undefined) {
                     setAlreadyLiked(res.data.alreadyLiked)
@@ -42,12 +42,12 @@ const Like = ({problemURL}: {problemURL: string}) => {
       } catch (error) {
         console.log(error);
       }
-    }, [session])
+    }, [session, likes, problemURL])
     
 
     const likeProblem = async() => {
         if(session.data?.user) {
-            // @ts-ignore
+            // @ts-expect-error
             const res = await axios.post('/api/user/like', {userId: session.data.user.id, problemURL: problemURL})
             if(res.data?.error) {
                 alert('Something went wrong try again')
@@ -72,7 +72,7 @@ const Like = ({problemURL}: {problemURL: string}) => {
     }
     const dislikeProblem = async() => {
         if(session.data?.user && alreadyDisliked === false) {
-            // @ts-ignore
+            // @ts-expect-error
             const res = await axios.post('/api/user/dislike', {userId: session.data.user.id, problemURL: problemURL})
             if(res.data?.error) {
                 alert('Something went wrong try again')

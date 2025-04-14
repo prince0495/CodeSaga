@@ -15,19 +15,6 @@ interface Friend {
   maxStreak: number;
 }
 
-interface User {
-  id: string;
-  name: string;
-  image: string;
-  points: number;
-  currentStreak: number;
-  maxStreak: number;
-  friendsInitiated: { recipient: Friend }[];
-  friendsReceived: { requester: Friend }[];
-  dailyActivity: { date: string; totalSubmissions: number }[];
-  monthlyActivity: { date: string; dailyActivity: { totalSubmissions: number }[] }[];
-}
-
 const Card = ({ children, className }: { children: React.ReactNode; className?: string }) => (
   <div className={`bg-white shadow-lg rounded-lg p-4 ${className}`}>{children}</div>
 );
@@ -51,30 +38,25 @@ const Avatar = ({ src, alt, className }: { src: string; alt: string; className?:
   />
 );
 
-const Button = ({ children, onClick, className }: { children: React.ReactNode; onClick?: () => void; className?: string }) => (
-  <button onClick={onClick} className={`px-4 py-2 bg-blue-500 text-white rounded ${className}`}>{children}</button>
-);
-
 const RankingsPage = () => {
   const session = useSession()
   const userData = useUser(state=>state.userData)
   const setUserData = useUser(state=>state.setUserData)
 
-  async function getData() {
-    console.log('yes, session has user with userid');
-    if(session.data?.user) {
-        if(!userData) {
-            // @ts-ignore
-            const res = await axios.get(`/api/rankings/${session.data.user.id}`)
-            console.log(res.data);
-            if(res.data?.id) {
-                setUserData(res.data)
-            }
-        }
-    }
-  }
-
   useEffect(() => {
+    async function getData() {
+      console.log('yes, session has user with userid');
+      if(session.data?.user) {
+          if(!userData) {
+              // @ts-expect-error
+              const res = await axios.get(`/api/rankings/${session.data.user.id}`)
+              console.log(res.data);
+              if(res.data?.id) {
+                  setUserData(res.data)
+              }
+          }
+      }
+    }
     getData()
   }, [session, userData]);
 

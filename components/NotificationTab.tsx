@@ -3,7 +3,7 @@
 import { useUser } from "@/lib/store"
 import axios from "axios"
 import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import dayjs from "dayjs"
 
 export type NotificationType = {
@@ -20,7 +20,7 @@ const NotificationTab = () => {
   useEffect(() => {
     async function getNotifications() {
       if (session.data?.user && !notifications) {
-        // @ts-ignore
+        // @ts-expect-error
         const res = await axios.get('/api/notifications/' + session.data.user.id)
         if (res.data?.notifications) {
           setNotifications(res.data.notifications)
@@ -28,7 +28,7 @@ const NotificationTab = () => {
       }
     }
     getNotifications()
-  }, [session])
+  }, [session, notifications, setNotifications])
 
   return (
     <div className="w-full max-w-md mx-auto p-4 bg-[#1a1a1a] rounded-2xl shadow-md border border-[#2a2a2a] max-h-[60vh]">

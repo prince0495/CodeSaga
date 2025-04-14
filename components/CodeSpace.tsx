@@ -40,7 +40,7 @@ const CodeSpace = ({ problemURL }: { problemURL: string }) => {
     } catch (error) {
       console.error('Error fetching boilerplate:', error);
     }
-  }, [problemURL, addSnippet, isHydrated, selectedLanguage, snippets]); 
+  }, [problemURL, addSnippet, isHydrated, snippets]); 
 
   useEffect(() => {
     fetchBoilerPlate();

@@ -2,9 +2,9 @@ import { ProfileData } from "@/components/UserInfoPage";
 import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest, {params}: any) {
+export async function POST(req: NextRequest, {params}: {params: {slug: string[]}}) {
     const param = await params;
-    let body = await req.json()
+    const body = await req.json()
     const profile: ProfileData = body.profile;
     console.log(body);
     try {

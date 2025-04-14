@@ -1,7 +1,7 @@
 import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, {params}: any) {
+export async function GET(req: NextRequest, {params}: {params: {slug: string[]}}) {
     const param = await params;
     try {
         const prisma = globalPrismaClient;
@@ -128,6 +128,6 @@ export async function GET(req: NextRequest, {params}: any) {
           });
         return NextResponse.json(userData)
     } catch (error) {
-        return NextResponse.json(null)
+        return NextResponse.json({error: error})
     }
 }

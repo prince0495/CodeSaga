@@ -56,11 +56,12 @@ async function getProblemInfo(problemURL: string) {
     })
     return problem;
   } catch (error) {
+    alert(error)
     return null;
   }
 }
 
-const page = async({params}: {params: any}) => {
+const page = async({params}: {params: {slug: string[]}}) => {
   const param = await params;
   const problemURL = param.slug[0]
   const pageType = param.slug[1] ? param.slug[1] : 'description';

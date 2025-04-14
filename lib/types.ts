@@ -2,7 +2,6 @@ export interface ServerToClientEvents {
     noArg: () => void;
     basicEmit: (a: number, b: string, c: Buffer) => void;
     withAck: (d: string, callback: (e: number) => void) => void;
-    welcome: (arg: any) => void;
     workerCallback: (obj: CodeCallback) => void;
     codeResponse: (obj: CodeCallback) => void;
   }
@@ -10,7 +9,6 @@ export interface ServerToClientEvents {
 export  interface ClientToServerEvents {
     hello: () => void;
     codeRequestQueue: (req: codeRequest) => void;
-    welcome: (arg: any) => void;
     workerCallback: (obj: CodeCallback) => void;
     codeResponse: (obj: CodeCallback) => void;
   }

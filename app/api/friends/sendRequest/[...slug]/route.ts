@@ -1,7 +1,7 @@
 import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest, {params}: any) {
+export async function POST(req: NextRequest, {params}: {params: {slug: string[]}}) {
     const param = await params;
     const body = await req.json();
     try {
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest, {params}: any) {
   createdAt               DateTime            @default(now())
   message      
        */
-       const notification = await prisma.notification.create({
+       await prisma.notification.create({
         data: {
             userId: body.recipientId,
             message: `${body.requesterName} sent you a friend request`

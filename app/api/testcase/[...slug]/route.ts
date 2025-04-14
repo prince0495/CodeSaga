@@ -1,7 +1,7 @@
 import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, {params}:any) {
+export async function GET(req: NextRequest, {params}:{params: {slug: string[]}}) {
   const param = await params;
   const prisma = globalPrismaClient;
   try {

@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
             await prisma.like.delete({where: {userId_problemURL: { userId, problemURL}} })
             return NextResponse.json({message: "Already Liked"})
         }
-        const liked = await prisma.like.create({
+        await prisma.like.create({
             data: {userId: userId, problemURL: problemURL}
         })
         return NextResponse.json({message: "Liked"})

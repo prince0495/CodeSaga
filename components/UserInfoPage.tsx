@@ -10,10 +10,6 @@ import Image from 'next/image'
 import dotenv from 'dotenv'
 dotenv.config()
 
-interface ButtonProps {
-  onClick: () => void;
-}
-
 export type ProfileData = {
     location: string;
     education: string;
@@ -101,9 +97,10 @@ const UserInfoPage = () => {
     setProfile({ ...profile, socialLinks: updatedLinks });
   };
 
-    async function getUserDetails() {
+    useEffect(() => {
+      async function getUserDetails() {
         if(!user) {
-            // @ts-ignore
+            // @ts-expect-error
             const res = await axios.get('/api/user/getUser/'+session.data.user.id);
             if(res.data) {
                 if(res.data?.id) {
@@ -122,8 +119,6 @@ const UserInfoPage = () => {
           profile.socialLinks = user?.socialHandles || [""];
         }
     }
-
-    useEffect(() => {
       if(session.data && session.data.user) {
         getUserDetails()
       }

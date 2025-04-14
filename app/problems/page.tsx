@@ -5,7 +5,6 @@ import ProblemPage from "@/components/ProblemsPage";
 import ProgressCircle from "@/components/ProgressCircle";
 
 const page = async({searchParams}: { searchParams: { [key: string]: string | undefined } }) => {
-  const date = new Date();  
   const query = await searchParams;
   const page = query?.page ?? '1';
   return (

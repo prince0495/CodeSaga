@@ -76,7 +76,7 @@ export default function PersonSubmissionsGraph({person}: {person: UserType | nul
   );
 }
 
-function CustomTooltip({ active, payload }: { active?: boolean; payload?: any[] }) {
+function CustomTooltip({ active, payload }: { active?: boolean; payload?: { payload: ActivityData }[] }) {
   if (active && payload && payload.length) {
     return (
       <div className="bg-gray-800 p-2 rounded-lg text-white shadow-md">

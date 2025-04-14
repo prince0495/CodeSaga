@@ -18,7 +18,8 @@ export type ProfileData = {
 const PersonProfile = ({personId}: {personId: string}) => {
     const [person, setPerson] = useState<UserType | null>(null)
 
-    async function getUserDetails() {
+    useEffect(() => {
+      async function getUserDetails() {
         if(!person) {
             const res = await axios.get('/api/user/getUser/'+personId);
             if(res.data) {
@@ -31,8 +32,6 @@ const PersonProfile = ({personId}: {personId: string}) => {
             }
         }
     }
-
-    useEffect(() => {
         getUserDetails()
     }, [personId])
     

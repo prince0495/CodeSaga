@@ -20,7 +20,6 @@ export default function SubmissionsGraph() {
   useEffect(() => {
     async function fetchData() {
       try {
-        console.log('trying in it');
         
         if (user && !monthlyActivity) {
           console.log('user && !monthlyActivity');
@@ -38,7 +37,7 @@ export default function SubmissionsGraph() {
       }
     }
     fetchData();
-  }, [user]);
+  }, [user, monthlyActivity, setMonthlyActivity]);
 
   const todayData = monthlyActivity?.dailyActivity ? monthlyActivity.dailyActivity[monthlyActivity.dailyActivity.length - 1] : null;
   const currentDate = new Date();
@@ -83,7 +82,7 @@ export default function SubmissionsGraph() {
   );
 }
 
-function CustomTooltip({ active, payload }: { active?: boolean; payload?: any[] }) {
+function CustomTooltip({ active, payload }: { active?: boolean; payload?: { payload: ActivityData }[] }) {
   if (active && payload && payload.length) {
     return (
       <div className="bg-gray-800 p-2 rounded-lg text-white shadow-md">

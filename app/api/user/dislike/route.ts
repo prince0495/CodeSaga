@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
             await prisma.dislike.delete({where: {userId_problemURL: {userId: userId, problemURL: problemURL}}})
             return NextResponse.json({message:"Already Disliked"})
         }
-        const disliked = await prisma.dislike.create({data: {userId: userId, problemURL: problemURL}})
+        await prisma.dislike.create({data: {userId: userId, problemURL: problemURL}})
         return NextResponse.json({message: "Disliked"})
     } catch (error) {
         return NextResponse.json({error: error})

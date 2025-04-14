@@ -31,6 +31,8 @@ async function getFilteredProblems(currentPage: number, problemsPerPage: number)
     return problems
   } catch (error) {
     alert('Either no internet or proxy on your internet, try again with different network')
+    console.log(error);
+    
     return []
   }
 }

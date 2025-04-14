@@ -9,19 +9,19 @@ const IsSolved = ({problemURL}: {problemURL: string}) => {
   const [isSolved, setIsSolved] = useState(false)
   const problemsStatus = useProblemsData(state=>state.problemsStatus)
   const session = useSession()
-  async function getSolvedStatus() {
-    // @ts-ignore
-    if(session && session.data && session.data.user && session.data.user.id) {
-      // @ts-ignore
-      const res = await axios.get(`/api/getSolvedStatus/${session.data.user.id}/${problemURL}`)
-      const solved = res.data?.isSolved
-      if(solved) {
-        setIsSolved(true)
-      }
-    }
-  }
   useEffect(() => {
     if(!problemsStatus.has(problemURL)) {
+      async function getSolvedStatus() {
+        // @ts-expect-error
+        if(session && session.data && session.data.user && session.data.user.id) {
+          // @ts-expect-error
+          const res = await axios.get(`/api/getSolvedStatus/${session.data.user.id}/${problemURL}`)
+          const solved = res.data?.isSolved
+          if(solved) {
+            setIsSolved(true)
+          }
+        }
+      }
       getSolvedStatus()
     } 
   }, [session, problemsStatus])

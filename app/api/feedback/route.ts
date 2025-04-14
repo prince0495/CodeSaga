@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     try {
         const prisma = globalPrismaClient;
-        const feedback = await prisma.feedback.create({
+        await prisma.feedback.create({
             data: {
                 firstName: body.firstName,
                 lastName: body.lastName,

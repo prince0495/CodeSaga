@@ -20,16 +20,14 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
   const addProblemsDifficulty = useProblemsData(state=>state.addProblemsDifficulty)
 
   const socket = useRef<Socket<ServerToClientEvents, ClientToServerEvents> | null>(null);
-
-  async function getDifficulty() {
-    const res = await axios.get('/api/getdifficulty/'+problemURL)
-    if(res.data && res.data.difficulty) {
-      addProblemsDifficulty(problemURL, res.data.difficulty)
-    }
-  }
   
   useEffect(() => {
-
+    async function getDifficulty() {
+      const res = await axios.get('/api/getdifficulty/'+problemURL)
+      if(res.data && res.data.difficulty) {
+        addProblemsDifficulty(problemURL, res.data.difficulty)
+      }
+    }
     if(!problemsDifficultyMap[problemURL]) {
       getDifficulty() 
     }
@@ -50,11 +48,6 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
       console.log('Connected to server : ', socket.current?.id);
     })
 
-    socket.current.on('welcome', (msg)=> {
-      console.log('welcome message received');
-      console.log(msg);
-    })
-
     socket.current.on('codeResponse', obj=> {
       updateResponseLoading(false)
       updateRunResponse(obj)
@@ -73,7 +66,7 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
         socket.current = null;
       }
     }
-  }, [])
+  }, [problemURL, problemsDifficultyMap, router, updateResponseLoading, updateRunResponse])
 
   return (
     <div className="flex gap-0.5 items-center justify-center">
@@ -109,7 +102,7 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
                 
                 const dateTime = new Date()
                 updateResponseLoading(true)
-                // @ts-ignore
+                // @ts-expect-error
                 socket.current.emit('codeRequestQueue', {language: currentLanguage, code: snippets[problemURL][currentLanguage].code, socketId: socket.current.id, problemTitle: problemURL, runnerType: 'run', submissionTime: dateTime, userId: session.data.user.id, problemURL: problemURL, difficulty: problemsDifficultyMap[problemURL], topics: topics})
                 console.log('sent');
               }}
@@ -151,7 +144,7 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
             const dateTime = new Date()
             updateResponseLoading(true)
             console.log('submission date ',dateTime);
-            // @ts-ignore
+            // @ts-expect-error
             socket.current.emit('codeRequestQueue', {language: currentLanguage, code: snippets[problemURL][currentLanguage].code, socketId: socket.current.id, problemTitle: problemURL, runnerType: 'submit', submissionTime: dateTime, userId: session.data.user.id, problemURL: problemURL, difficulty: problemsDifficultyMap[problemURL], topics: topics})
             console.log('sent submission');
           }}

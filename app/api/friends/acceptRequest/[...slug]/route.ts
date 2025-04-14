@@ -1,7 +1,7 @@
 import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest, {params}: any) {
+export async function POST(req: NextRequest, {params}: {params: {slug: string[]}}) {
     const param = await params;
     const body = await req.json();
     try {
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest, {params}: any) {
                         }
                     }
                 })
-                const notification = await prisma.notification.create({
+                await prisma.notification.create({
                     data: {
                         userId: requesterId,
                         message: `${body.accepterName} accepted your friend request`
@@ -103,7 +103,7 @@ export async function POST(req: NextRequest, {params}: any) {
                             }
                         }
                     })
-                    const notification = await prisma.notification.create({
+                    await prisma.notification.create({
                         data: {
                             userId: requesterId,
                             message: `${body.accepterName} accepted your friend request`

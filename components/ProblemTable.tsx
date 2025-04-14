@@ -36,45 +36,35 @@ const ProblemTable: React.FC<ProblemTableProps> = ({
   const handlePageChange = (page: number) => {
     router.push(`/problems?page=${page}`)
   };
-  console.log(session.data?.user);
-  
-
-  async function getStatus() {
-    console.log('called getStatus');
-    if(session.status === 'authenticated') {
-      // @ts-ignore
-      const res = await axios.get(`/api/getStatus/${session.data?.user.id}`)    
-      if(res.data.solvedProblems) {
-        setProblemsStatus(new Set<string>(res.data.solvedProblems))
-      }  
-      
-    }
-  }
-  async function getSubmissions() {
-    const res = await axios.get(`/api/getAcceptance/${currentPage}/${problemsPerPage}`)
-    if(res.data && res.data?.problems) {
-      console.log('adding acceptance rate for : ',res.data.problems);
-      
-      for(const p of res.data.problems) {
-        /*
-        totalSubmissions: number;
-    acceptedSubmissions: number;
-    problemURL: string;
- */
-        addAcceptanceRate(p.problemURL, {totalSubmissions: p.totalSubmissions , acceptedSubmissions: p.acceptedSubmissions})
-      }
-      
-    }
-  }
 
   useEffect(() => {
-    console.log('use effect called');
+    async function getStatus() {
+      console.log('called getStatus');
+      if(session.status === 'authenticated') {
+        // @ts-expect-error
+        const res = await axios.get(`/api/getStatus/${session.data?.user.id}`)    
+        if(res.data.solvedProblems) {
+          setProblemsStatus(new Set<string>(res.data.solvedProblems))
+        }  
+        
+      }
+    }
     getStatus();
     
   }, [session]);
   useEffect(() => {
+    async function getSubmissions() {
+      const res = await axios.get(`/api/getAcceptance/${currentPage}/${problemsPerPage}`)
+      if(res.data && res.data?.problems) {
+        console.log('adding acceptance rate for : ',res.data.problems);
+        
+        for(const p of res.data.problems) {
+          addAcceptanceRate(p.problemURL, {totalSubmissions: p.totalSubmissions , acceptedSubmissions: p.acceptedSubmissions})
+        }
+        
+      }
+    }
     getSubmissions();
-    console.log('add difficulty useeffect got called');
     
     problems.forEach(problem => {
       if (!problemsDifficultyMap[problem.problemURL]) {

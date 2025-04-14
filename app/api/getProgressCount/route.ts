@@ -1,7 +1,7 @@
 import { globalPrismaClient } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         const prisma = globalPrismaClient;
         const easyCount = await prisma.problem.count({
@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
                 difficulty: 'Hard'
             }
         })
-        let totalCount = easyCount + mediumCount + hardCount;
+        const totalCount = easyCount + mediumCount + hardCount;
         return NextResponse.json({totalCount, easyCount, mediumCount, hardCount});
     } catch (error) {
         return NextResponse.json({message: error})
