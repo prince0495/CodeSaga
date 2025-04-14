@@ -31,7 +31,7 @@ export default function PersonSubmissionsGraph({person}: {person: UserType | nul
       }
     }
     fetchData();
-  }, [person]);
+  }, [person, monthlyActivity]);
 
   const todayData = monthlyActivity?.dailyActivity ? monthlyActivity.dailyActivity[monthlyActivity.dailyActivity.length - 1] : null;
   const currentDate = new Date();

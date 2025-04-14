@@ -1,8 +1,6 @@
 import ProblemTable from "@/components/ProblemTable";
 import { globalPrismaClient } from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/constants";
-import { getServerSession } from "next-auth";
-import { NEXT_AUTH_CONFIG } from "@/lib/auth";
 
 export type FilteredProblems = {
   id: string,
@@ -41,7 +39,6 @@ const ProblemPage = async({page}: {page: string}) => {
   console.log("page = ",page);
   const problemsPerPage = ITEM_PER_PAGE;
   const currentPage = parseInt(page)
-  const session = await getServerSession(NEXT_AUTH_CONFIG)
   const problems: FilteredProblems[] = await getFilteredProblems(currentPage, problemsPerPage)
 
   // const totalPages = Math.ceil(problems.length*3 / problemsPerPage);

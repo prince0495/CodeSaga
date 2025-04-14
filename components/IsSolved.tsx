@@ -12,9 +12,9 @@ const IsSolved = ({problemURL}: {problemURL: string}) => {
   useEffect(() => {
     if(!problemsStatus.has(problemURL)) {
       async function getSolvedStatus() {
-        // @ts-expect-error
+        // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
         if(session && session.data && session.data.user && session.data.user.id) {
-          // @ts-expect-error
+          // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
           const res = await axios.get(`/api/getSolvedStatus/${session.data.user.id}/${problemURL}`)
           const solved = res.data?.isSolved
           if(solved) {
@@ -24,7 +24,7 @@ const IsSolved = ({problemURL}: {problemURL: string}) => {
       }
       getSolvedStatus()
     } 
-  }, [session, problemsStatus])
+  },[session, problemsStatus, problemURL])
   
   return (
     <div>

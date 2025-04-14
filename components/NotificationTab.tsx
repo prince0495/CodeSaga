@@ -20,7 +20,7 @@ const NotificationTab = () => {
   useEffect(() => {
     async function getNotifications() {
       if (session.data?.user && !notifications) {
-        // @ts-expect-error
+        // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
         const res = await axios.get('/api/notifications/' + session.data.user.id)
         if (res.data?.notifications) {
           setNotifications(res.data.notifications)

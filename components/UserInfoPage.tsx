@@ -100,7 +100,7 @@ const UserInfoPage = () => {
     useEffect(() => {
       async function getUserDetails() {
         if(!user) {
-            // @ts-expect-error
+            // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
             const res = await axios.get('/api/user/getUser/'+session.data.user.id);
             if(res.data) {
                 if(res.data?.id) {
@@ -122,7 +122,7 @@ const UserInfoPage = () => {
       if(session.data && session.data.user) {
         getUserDetails()
       }
-    }, [session, user])
+    }, [session, user, profile, setUser])
     console.log(user?.createdAt);
     
   return (

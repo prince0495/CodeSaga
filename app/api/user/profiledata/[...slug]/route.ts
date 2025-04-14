@@ -2,16 +2,19 @@ import { ProfileData } from "@/components/UserInfoPage";
 import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest, {params}: {params: {slug: string[]}}) {
-    const param = await params;
-    const body = await req.json()
+export async function POST(req: NextRequest, context: { params: Promise<{ slug?: string[] }> }) {
+    const { slug } = await context.params;
+    if (!slug || slug.length === 0) {
+        return NextResponse.json({ error: "Missing user ID" }, { status: 400 });
+    }
+        const body = await req.json()
     const profile: ProfileData = body.profile;
     console.log(body);
     try {
         const prisma = globalPrismaClient;
         const user = await prisma.user.update({
             where: {
-                id: param.slug[0]
+                id: slug[0]
             },
             data: {
                 name: profile.name,

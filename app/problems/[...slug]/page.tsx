@@ -61,10 +61,13 @@ async function getProblemInfo(problemURL: string) {
   }
 }
 
-const page = async({params}: {params: {slug: string[]}}) => {
-  const param = await params;
-  const problemURL = param.slug[0]
-  const pageType = param.slug[1] ? param.slug[1] : 'description';
+const page = async(context: { params: Promise<{ slug?: string[] }> }) => {
+  const { slug } = await context.params;
+      if (!slug || slug.length === 0) {
+          return null;
+      }
+  const problemURL = slug[0]
+  const pageType = slug[1] ? slug[1] : 'description';
   const problemInfo = await getProblemInfo(problemURL);
   
   return (

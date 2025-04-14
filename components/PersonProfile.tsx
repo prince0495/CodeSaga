@@ -33,7 +33,7 @@ const PersonProfile = ({personId}: {personId: string}) => {
         }
     }
         getUserDetails()
-    }, [personId])
+    }, [personId, person])
     
   return (
   <div className="flex min-h-[calc(100vh-4rem)]">

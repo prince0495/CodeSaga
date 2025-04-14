@@ -48,7 +48,7 @@ const RankingsPage = () => {
       console.log('yes, session has user with userid');
       if(session.data?.user) {
           if(!userData) {
-              // @ts-expect-error
+              // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
               const res = await axios.get(`/api/rankings/${session.data.user.id}`)
               console.log(res.data);
               if(res.data?.id) {
@@ -58,7 +58,7 @@ const RankingsPage = () => {
       }
     }
     getData()
-  }, [session, userData]);
+  }, [session, userData, setUserData]);
 
 
   if (!userData) return (

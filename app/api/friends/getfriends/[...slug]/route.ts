@@ -1,22 +1,13 @@
 import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-/*
-model Friendship {
-  id                      String              @id @default(uuid())
-  requesterId             String
-  recipientId             String
-  requester               User                @relation("Friend_Initiated", fields: [requesterId], references: [id], onDelete: Cascade)
-  recipient               User                @relation("Friend_Received", fields: [recipientId], references: [id], onDelete: Cascade)
-  status                  String              @default("Pending")
-  createdAt               DateTime            @default(now())
-  acceptedAt              DateTime
-  @@unique([requesterId, recipientId])
-}
 
-*/
-export async function GET(req: NextRequest, {params}: {params: {slug: string[]}}) {
-    const param = await params;
-    const userId = param.slug[0]
+export async function GET(req: NextRequest, context: { params: Promise<{ slug?: string[] }> }) {
+    const { slug } = await context.params;
+    if (!slug || slug.length === 0) {
+        return NextResponse.json({ error: "Missing user ID" }, { status: 400 });
+    }
+    
+    const userId = slug[0]
     try {
         const prisma = globalPrismaClient;
         const friendships = await prisma.friendship.findMany({

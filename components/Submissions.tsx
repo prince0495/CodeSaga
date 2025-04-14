@@ -38,7 +38,7 @@ const Submissions = ({ problemURL }: { problemURL: string }) => {
     setError(null);
 
     try {
-      // @ts-expect-error
+      // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
       const res = await axios.get(`/api/submissions/${session.user.id}/${currentLanguage}/${problemURL}`);
       setSubmissions(res.data || []);
       console.log(res.data);
@@ -50,7 +50,7 @@ const Submissions = ({ problemURL }: { problemURL: string }) => {
     } finally {
       setLoading(false);
     }
-  }, [session?.user, currentLanguage]);
+  }, [session?.user, currentLanguage, problemURL]);
 
   useEffect(() => {
     fetchSubmissions();

@@ -21,7 +21,7 @@ const ProblemAcceptance = ({problemURL}: {problemURL: string}) => {
       }
     }
     getAcceptance()
-  }, [])
+  }, [acceptanceRateMap, addAcceptanceRate, problemURL])
   
   
   return (

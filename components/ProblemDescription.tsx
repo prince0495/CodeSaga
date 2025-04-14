@@ -1,4 +1,4 @@
-
+import Image from "next/image"
 
 const ProblemDescription = ({description, imgSrc}: {description: string[], imgSrc: string | null}) => {
   return (
@@ -10,7 +10,7 @@ const ProblemDescription = ({description, imgSrc}: {description: string[], imgSr
         </div>
         {imgSrc && 
           <div>
-            <img src={imgSrc} alt="Img" width={400} />
+            <Image src={imgSrc} alt="Img" width={400} />
           </div>
         }
     </div>

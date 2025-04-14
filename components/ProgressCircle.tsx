@@ -32,9 +32,9 @@ const ProgressCircle = () => {
           setEasyProblemsCount(easyCount);
           setMediumProblemsCount(mediumCount);
           setHardProblemsCount(hardCount);
-          // @ts-expect-error
+          // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
           if(session.data && session.data.user && session.data.user.id) {
-            // @ts-expect-error
+            // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
             const response = await axios.get('/api/getUserProgress/'+session.data.user.id);
             // add extra check here later
             if(response.data) {
@@ -65,7 +65,7 @@ const ProgressCircle = () => {
       }
     }
     getProgress();
-  }, [session]);
+  }, [session, totalProblemsCount]);
 
   if (totalProblemsCount === -1) {
     return (

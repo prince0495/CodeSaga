@@ -66,7 +66,7 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
         socket.current = null;
       }
     }
-  }, [problemURL, problemsDifficultyMap, router, updateResponseLoading, updateRunResponse])
+  }, [problemURL, problemsDifficultyMap, router, updateResponseLoading, updateRunResponse, addProblemsDifficulty])
 
   return (
     <div className="flex gap-0.5 items-center justify-center">
@@ -102,7 +102,7 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
                 
                 const dateTime = new Date()
                 updateResponseLoading(true)
-                // @ts-expect-error
+                // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
                 socket.current.emit('codeRequestQueue', {language: currentLanguage, code: snippets[problemURL][currentLanguage].code, socketId: socket.current.id, problemTitle: problemURL, runnerType: 'run', submissionTime: dateTime, userId: session.data.user.id, problemURL: problemURL, difficulty: problemsDifficultyMap[problemURL], topics: topics})
                 console.log('sent');
               }}
@@ -144,7 +144,7 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
             const dateTime = new Date()
             updateResponseLoading(true)
             console.log('submission date ',dateTime);
-            // @ts-expect-error
+            // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
             socket.current.emit('codeRequestQueue', {language: currentLanguage, code: snippets[problemURL][currentLanguage].code, socketId: socket.current.id, problemTitle: problemURL, runnerType: 'submit', submissionTime: dateTime, userId: session.data.user.id, problemURL: problemURL, difficulty: problemsDifficultyMap[problemURL], topics: topics})
             console.log('sent submission');
           }}

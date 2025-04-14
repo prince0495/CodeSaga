@@ -29,7 +29,7 @@ const useCodeStore = create<CodeStore>()(
     (set) => ({
       snippets: {},
       userCodeLanguage: 'java',
-      setUserCodeLanguage: (language: string) => (set((state)=> ({
+      setUserCodeLanguage: (language: string) => (set(()=> ({
         userCodeLanguage: language
       }))),
       // Add snippet for a specific key and language
@@ -238,7 +238,7 @@ const useUser = create<UserState & UserAction>()((set)=>({
   friendRequests: {},
   userData: null,
   notifications: null,
-  setUser: (obj: UserType) => set(state => ({
+  setUser: (obj: UserType) => set(() => ({
     user: obj
   })),
   setUserImage: (imageURL: string) => set((state) => {
@@ -259,7 +259,7 @@ const useUser = create<UserState & UserAction>()((set)=>({
       }
     }
   }),
-  setMonthlyActivity: (obj: MonthlyActivitytype) => set(state=> ({
+  setMonthlyActivity: (obj: MonthlyActivitytype) => set(()=> ({
     monthlyActivity: obj
   })),
   addFriends: (key: string, value: FriendProps) => set(state=> ({
@@ -268,7 +268,7 @@ const useUser = create<UserState & UserAction>()((set)=>({
       [key]: value
     }
   })),
-  setAllUsers: (obj: FilterUserType[]) => set(state=> ({
+  setAllUsers: (obj: FilterUserType[]) => set(()=> ({
     allUsers: obj
   })),
   addFriendRequest: (key: string, value: FriendProps) => set(state=> ({
@@ -287,10 +287,10 @@ const useUser = create<UserState & UserAction>()((set)=>({
     delete updatedFriends[key];
     return { friends: updatedFriends };
   }),
-  setUserData: (obj: UserDataType) => set(state=> ({
+  setUserData: (obj: UserDataType) => set(()=> ({
     userData: obj
   })),
-  setNotifications: (obj: NotificationType[]) => set(state=> ({
+  setNotifications: (obj: NotificationType[]) => set(()=> ({
     notifications: obj
   }))
 }))

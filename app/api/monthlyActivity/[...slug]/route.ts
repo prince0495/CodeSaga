@@ -1,12 +1,15 @@
 import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, {params}: any) {
-    const param = await params;
-    let date = new Date()
-    let firstDayOfMonth = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1));
+export async function GET(req: NextRequest, context: { params: Promise<{ slug?: string[] }> }) {
+    const { slug } = await context.params;
+    if (!slug || slug.length === 0) {
+        return NextResponse.json({ error: "Missing user ID" }, { status: 400 });
+    }
+        const date = new Date()
+    const firstDayOfMonth = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1));
     try {
-        const userId = param.slug[0];
+        const userId = slug[0];
         const prisma = globalPrismaClient;
         const monthlyActivity = await prisma.monthlyActivity.findUnique({
             where: {

@@ -1,8 +1,11 @@
 import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, {params}: {params: {slug: string[]}}) {
-    const param = await params;
+export async function GET(req: NextRequest, context: { params: Promise<{ slug?: string[] }> } ) {
+    const { slug } = await context.params;
+    if (!slug || slug.length === 0) {
+        return NextResponse.json({ error: "Missing user ID" }, { status: 400 });
+    }
     const date = new Date();
     const currenYear = date.getUTCFullYear();
 
@@ -14,7 +17,7 @@ export async function GET(req: NextRequest, {params}: {params: {slug: string[]}}
             const monthlyActivity = await prisma.monthlyActivity.findUnique({
                 where: {
                     userId_date: {
-                        userId: param.slug[0],
+                        userId: slug[0],
                         date: firstDayOfMonth
                     }
                 },

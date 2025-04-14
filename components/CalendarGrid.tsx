@@ -33,7 +33,7 @@ const CalendarGrid = () => {
     async function getMonthlyActivity() {
       if (session && session.data && session.data.user) {
         try {
-          // @ts-expect-error
+          // @ts-expect-error: Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
           const res = await axios.get(`/api/monthlyActivity/${session.data.user.id}`);
           if (res.data && res.data.dailyActivity) {
             for (const activity of res.data.dailyActivity) {
@@ -47,7 +47,7 @@ const CalendarGrid = () => {
       }
     }
     getMonthlyActivity();
-  }, [session]);
+  }, [session, addMonthlySubmission]);
 
   return (
     <div className="flex-col justify-center items-center w-full p-3 bg-[#1c1c1c] shadow-lg rounded-2xl max-w-lg">

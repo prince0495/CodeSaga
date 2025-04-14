@@ -1,10 +1,13 @@
 import { globalPrismaClient } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, {params}: {params: {slug: string[]}}) {
-    const param = await params;
-    try {
-        const userId = param.slug[0];
+export async function GET(req: NextRequest, context: { params: Promise<{ slug?: string[] }> }) {
+    const { slug } = await context.params;
+    if (!slug || slug.length === 0) {
+        return NextResponse.json({ error: "Missing user ID" }, { status: 400 });
+    }
+        try {
+        const userId = slug[0];
         const prisma = globalPrismaClient;
         const user = await prisma.user.findUnique({
             where: {

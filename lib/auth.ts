@@ -35,7 +35,7 @@ export const NEXT_AUTH_CONFIG = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    // @ts-expect-error
+    // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
     signIn: async({user, account}) => {
       if(user && user.id && account && account?.providerAccountId) {
         try {
@@ -66,7 +66,7 @@ export const NEXT_AUTH_CONFIG = {
         return false;
       }
     },
-    // @ts-expect-error
+    // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
   session: async({ session, token }) => {
       if (session?.user && token?.sub) {
         try {

@@ -27,7 +27,7 @@ const Like = ({problemURL}: {problemURL: string}) => {
         }
         async function alreadyDidThat() {
             if(session.data?.user) {
-                // @ts-expect-error
+                // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
                 const res = await axios.post('/api/user/alreadydid', {userId: session.data.user.id, problemURL: problemURL})
                 if(res.data?.alreadyLiked !== undefined) {
                     setAlreadyLiked(res.data.alreadyLiked)
@@ -47,7 +47,7 @@ const Like = ({problemURL}: {problemURL: string}) => {
 
     const likeProblem = async() => {
         if(session.data?.user) {
-            // @ts-expect-error
+            // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
             const res = await axios.post('/api/user/like', {userId: session.data.user.id, problemURL: problemURL})
             if(res.data?.error) {
                 alert('Something went wrong try again')
@@ -72,7 +72,7 @@ const Like = ({problemURL}: {problemURL: string}) => {
     }
     const dislikeProblem = async() => {
         if(session.data?.user && alreadyDisliked === false) {
-            // @ts-expect-error
+            // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
             const res = await axios.post('/api/user/dislike', {userId: session.data.user.id, problemURL: problemURL})
             if(res.data?.error) {
                 alert('Something went wrong try again')

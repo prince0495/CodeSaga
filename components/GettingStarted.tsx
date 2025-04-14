@@ -23,10 +23,12 @@ const GettingStarted = () => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const translateX = useTransform(mouseX, [-window.innerWidth / 2, window.innerWidth / 2], [30, -30]);
-  const translateY = useTransform(mouseY, [-window.innerHeight / 2, window.innerHeight / 2], [30, -30]);
+  const translateX = useTransform(mouseX, [-500, 500], [30, -30]);
+  const translateY = useTransform(mouseY, [-500, 500], [30, -30]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const handleMouseMove = (event: MouseEvent) => {
       mouseX.set(event.clientX - window.innerWidth / 2);
       mouseY.set(event.clientY - window.innerHeight / 2);
