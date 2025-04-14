@@ -6,7 +6,6 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useCodeStore } from "@/lib/store";
 import dayjs from "dayjs";
-import { CodeCallback } from "@/lib/types";
 
 const Skeleton = ({ className }: { className?: string }) => (
   <div className={`animate-pulse bg-gray-700 ${className}`} />

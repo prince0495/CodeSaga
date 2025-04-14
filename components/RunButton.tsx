@@ -1,6 +1,6 @@
 "use client"
 import {useCodeStore, useProblemsData, useRunCallbackStore} from '@/lib/store'
-import { ClientToServerEvents, CodeCallback, ServerToClientEvents } from '@/lib/types'
+import { ClientToServerEvents, ServerToClientEvents } from '@/lib/types'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'

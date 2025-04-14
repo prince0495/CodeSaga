@@ -1,9 +1,7 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import clsx from "clsx";
-import { useSession } from "next-auth/react";
 import { useUser } from "@/lib/store";
 
 interface DailyActivity {

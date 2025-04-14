@@ -2,7 +2,6 @@
 
 import { useUser } from '@/lib/store';
 import axios from 'axios';
-import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';

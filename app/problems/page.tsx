@@ -3,7 +3,6 @@ import CompanyTags from "@/components/CompanyTags";
 import Navbar from "@/components/Navbar"
 import ProblemPage from "@/components/ProblemsPage";
 import ProgressCircle from "@/components/ProgressCircle";
-import TestingAddProblem from "@/components/TestingAddProblem";
 
 const page = async({searchParams}: { searchParams: { [key: string]: string | undefined } }) => {
   const date = new Date();  

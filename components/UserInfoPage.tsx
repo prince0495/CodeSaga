@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import SubmissionsGraph from './SubmissionsGraph'

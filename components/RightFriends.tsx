@@ -1,8 +1,7 @@
 'use client'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import UserFriends from './UserFriends'
 import FriendRequest from './FriendRequest'
-import { FriendsMap } from '@/lib/store'
 
 const RightFriends = () => {
 

@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend, ResponsiveContainer } from "recharts";
 import axios from "axios";
 import { useSession } from "next-auth/react";

@@ -4,7 +4,6 @@ import { FriendsMap, useUser } from "@/lib/store";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
 
 const UserFriends = () => {
   const friends: FriendsMap = useUser((state) => state.friends);

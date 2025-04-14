@@ -2,7 +2,7 @@
 
 import { FriendsMap, useUser } from "@/lib/store"
 import Image from "next/image"
-import { Check, X, Trash2 } from "lucide-react"
+import { Check, X } from "lucide-react"
 import axios from "axios"
 
 const FriendRequest = () => {
