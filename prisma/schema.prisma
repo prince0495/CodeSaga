@@ -1,0 +1,175 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Friendship {
+  id                      String              @id @default(uuid())
+  requesterId             String
+  recipientId             String
+  requester               User                @relation("Friend_Initiated", fields: [requesterId], references: [id], onDelete: Cascade)
+  recipient               User                @relation("Friend_Received", fields: [recipientId], references: [id], onDelete: Cascade)
+  status                  String              @default("Pending")
+  createdAt               DateTime            @default(now())
+  acceptedAt              DateTime            @default(now())
+  @@unique([requesterId, recipientId])
+}
+
+model Notification {
+  id                      String              @id @default(uuid())
+  userId                  String
+  user                    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt               DateTime            @default(now())
+  message                 String
+}
+
+model User {
+  id                            String    @id @unique
+  name                          String
+  email                         String   @unique
+  submissions                   Submission[]
+  solvedProblems                String[]            @default([])
+  acceptedEasy                  Int                 @default(0)
+  acceptedMedium                Int                 @default(0)
+  acceptedHard                  Int                 @default(0)
+  totalEasy                     Int                 @default(0)
+  totalMedium                   Int                 @default(0)
+  totalHard                     Int                 @default(0)
+  totalSubmissions              Int                 @default(0)
+  acceptedSubmissions           Int                 @default(0)
+  duplicateAcceptedEasy         Int                 @default(0)
+  duplicateAcceptedMedium       Int                 @default(0)
+  duplicateAcceptedHard         Int                 @default(0)
+  duplicateTotalEasy            Int                 @default(0)
+  duplicateTotalMedium          Int                 @default(0)
+  duplicateTotalHard            Int                 @default(0)
+  duplicateTotalSubmissions     Int                 @default(0)
+  duplicateAcceptedSubmissions  Int                 @default(0)
+  
+  points              Int                 @default(0)
+  dailyActivity       DailyActivity[]
+  monthlyActivity     MonthlyActivity[]
+  currentStreak       Int                 @default(0)
+  maxStreak           Int                 @default(0)
+  activeDays          Int                 @default(0)
+
+  friendsInitiated              Friendship[]        @relation("Friend_Initiated") // RequesterId = userId , other = Recipient
+  friendsReceived               Friendship[]        @relation("Friend_Received")  // RecipientId = userId , other = requester
+
+  image               String
+  bio                 String?
+  location            String?
+  skills              String[]            @default([])
+  socialHandles       String[]            
+  personalProjects    String[]
+  portfolioLink       String?
+  Role                String?
+  education           String?
+  createdAt           DateTime              @default(now())
+
+  notifications       Notification[]
+
+  likes               Like[]
+  dislikes            Dislike[]
+}
+
+model MonthlyActivity {
+  userId              String
+  user                User           @relation(fields: [userId], references: [id])
+  date                DateTime
+  dailyActivity       DailyActivity[]
+  @@id(name: "userId_date", [userId,date])
+}
+
+model DailyActivity {
+  userId              String
+  user                User                      @relation(fields: [userId], references: [id])
+  date                DateTime
+  totalSubmissions               Int                       @default(0)
+  acceptedSubmissions            Int                       @default(0)
+  submissions         Submission[]
+  month               DateTime
+  monthlyActivity     MonthlyActivity           @relation(fields: [userId, month], references: [userId, date], onDelete: Cascade) 
+  @@id(name: "userId_date", [userId,date])
+}
+
+model Like {
+  userId              String
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemURL          String
+  problem             Problem             @relation(fields: [problemURL], references: [problemURL], onDelete: Cascade)
+  @@id(name: "userId_problemURL", [userId, problemURL])
+}
+model Dislike {
+  userId              String
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemURL          String
+  problem             Problem             @relation(fields: [problemURL], references: [problemURL], onDelete: Cascade)
+  @@id(name: "userId_problemURL", [userId, problemURL])
+}
+
+model Problem {
+  id                   String             @unique @default(uuid())
+  description          String[]                         
+  examples             Example[]        
+  topics               String[]           @default([])      
+  companies            String[]           @default([])
+  totalSubmissions     Int                @default(0)
+  acceptedSubmissions  Int                @default(0)
+  submissions          Submission[]
+  boilerPlates         String[]                        
+  hints                String[]           @default([])
+  difficulty           String   
+  frequency            Int                @default(0)
+  title                String             @unique
+  problemURL           String             @unique
+  imgSrc               String?
+  problemNumber        Int                @unique
+  likes                Like[]
+  dislikes             Dislike[]
+}
+model Example {
+  id                   String      @unique @default(uuid())
+  input                String[]
+  output               String
+  explanation          String[]     @default([])
+  imgSrc               String?
+  problemId            String
+  problem              Problem     @relation(fields: [problemId], references: [id], onDelete: Cascade)
+}
+model Submission {
+  id                   String       @unique @default(uuid())
+  submittedAt          DateTime     @default(now())
+  status               String       @default("pending")
+  userId               String
+  user                 User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemURL            String
+  problem              Problem      @relation(fields: [problemURL], references: [problemURL], onDelete: Cascade)
+  code                 String
+  language             String
+  today                DateTime
+
+  dailyActivity        DailyActivity   @relation(fields: [userId, today], references: [userId, date], onDelete: Cascade)
+  @@index([userId, today])
+}
+
+model Feedback {
+  id                   String       @unique @default(uuid())
+  createdAt            DateTime     @default(now())
+  firstName            String
+  lastName             String
+  email                String
+  phoneNumber          String
+  message              String
+  services             String[]     @default([])
+}

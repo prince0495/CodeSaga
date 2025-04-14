@@ -2,20 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.split {
+    display: flex;
+    flex-direction: row;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.gutter {
+    background-color: #0f0f0f;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    cursor: e-resize;
+}
+.gutter.gutter-vertical {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+    cursor: row-resize;
+}
+.bg-grid-small {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px),
+                      linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
-}
+ 
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+
+  .bg-grid-dark {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+    background-size: 20px 20px; /* Smaller grid size */
+  }
+
+  /* Faster Grid Animation */
+  @keyframes gridMove {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 20px 20px;
+    }
+  }
+
+  .animate-gridMove {
+    animation: gridMove 4s linear infinite alternate;
+  }
