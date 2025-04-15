@@ -112,7 +112,7 @@ const UserInfoPage = () => {
             }
         }
         if(user) {
-          profile.name = user.name;
+          profile.name = user?.name || "";
           profile.location = user?.location || '';
           profile.bio = user?.bio || '';
           profile.education = user?.education || '';
@@ -123,7 +123,6 @@ const UserInfoPage = () => {
         getUserDetails()
       }
     }, [session, user, profile, setUser])
-    console.log(user?.createdAt);
     
   return (
       <div className="flex min-h-[calc(100vh-4rem)] select-none">
