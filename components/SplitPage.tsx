@@ -12,9 +12,10 @@ const SplitPage = ({problemInfo, pageType, problemURL}: {problemInfo: ProblemInf
     return (<>Loading...</>);
   }
   return (
-    <div>
+    <div className='overflow-x-hidden'>
       <Split
           className="split h-[calc(100vh-4rem)] overflow-y-auto"
+          minSize={0}
       >
             {pageType === 'description' ? (<Problem problemInfo={problemInfo} problemURL={problemURL} />) : (pageType==='submissions' ? <Submissions problemURL={problemURL} /> : <TestCases problemURL={problemURL} examples={problemInfo.examples} />)}
             <WorkSpace problemURL={problemURL} />

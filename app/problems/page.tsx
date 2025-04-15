@@ -11,13 +11,13 @@ import ProgressCircle from "@/components/ProgressCircle";
   return (
     <div className="flex-col">
         <Navbar compName="problems" />
-        <div className="w-full flex flex-col cmd-8:flex-row">
+        <div className="w-full flex flex-col cmd-8:flex-row select-none">
           {/* Left */}
           <div className="w-full lg:w-9/12">
             <ProblemPage page={page} />
           </div>
           {/* Right */}
-          <div className="w-full  lg:w-3/12 flex flex-col justify-start items-center p-3 gap-5">
+          <div className="w-full  lg:w-3/12 flex flex-col justify-start items-center p-3 gap-5 select-none">
             <CalendarGrid/>
             <ProgressCircle/>
             <CompanyTags/>

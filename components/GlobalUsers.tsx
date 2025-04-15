@@ -138,7 +138,7 @@ const GlobalUsers = () => {
     }, 1000)
   }
   return (
-  <div className="h-[calc(100vh-4rem)] flex flex-col md:flex-row gap-2 pt-3 w-full px-5">
+  <div className="h-[calc(100vh-4rem)] flex flex-col md:flex-row gap-2 pt-3 w-full px-5 select-none">
     <div className="bg-[#282828] w-full md:w-8/12 rounded-t-lg overflow-y-auto ">
   <div className="w-full h-full">
     {/* Search Bar */}

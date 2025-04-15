@@ -18,7 +18,7 @@ const Navbar = ({ compName }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-[#1c1c1c] h-16 border-b border-[#4d4d4d] flex items-center p-3 justify-between relative">
+    <div className="bg-[#1c1c1c] h-16 border-b border-[#4d4d4d] flex items-center p-3 justify-between relative select-none">
       <div className="flex gap-4 items-center">
         <NavLogo/>
         

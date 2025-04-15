@@ -36,7 +36,7 @@ const PersonProfile = ({personId}: {personId: string}) => {
     }, [personId, person])
     
   return (
-  <div className="flex min-h-[calc(100vh-4rem)]">
+  <div className="flex min-h-[calc(100vh-4rem)] select-none">
         <div className="lg:w-3/12 w-0 rounded-lg my-6 c-450:ml-8 bg-[#282828] flex flex-col gap-3 overflow-hidden">
             {person ? <div className="flex flex-col p-4">
                 <div className='flex gap-6 justify-start'>

@@ -39,17 +39,6 @@ export default function ContactPage() {
       return { ...prevForm, services: updatedServices };
     });
   };
-  
-  /*
-  id                   String       @unique @default(uuid())
-  createdAt            DateTime     @default(now())
-  firstName            String
-  lastName             String
-  email                String
-  phoneNumber          String
-  message              String
-  services  
-  */
 
   const submitFeedback = async() => {
     if(form.firstName.length > 0 && form.lastName.length > 0 && form.email.length > 0 && form.phone.length > 0 && form.message.length > 0) {
@@ -75,10 +64,9 @@ export default function ContactPage() {
       alert('Please fill all the details')
     }
   }
- 
 
   return (
-    <div className="relative flex flex-col items-center px-6 py-12 md:px-24 lg:px-40 rounded-lg shadow-lg">
+    <div className="relative flex flex-col items-center px-6 py-12 md:px-24 lg:px-40 rounded-lg shadow-lg select-none">
       {/* Grid Background */}
       <div className="absolute inset-0 -z-10 bg-white bg-grid-small [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1),rgba(0,0,0,0.2),rgba(0,0,0,0))]"></div>
       
