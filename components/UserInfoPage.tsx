@@ -117,17 +117,20 @@ const UserInfoPage = () => {
             }
         }
         if(user) {
-          profile.name = user?.name || "";
-          profile.location = user?.location || '';
-          profile.bio = user?.bio || '';
-          profile.education = user?.education || '';
-          profile.socialLinks = user?.socialHandles || [""];
+          setProfile({
+            name: user.name || "",
+            location: user.location || "",
+            bio: user.bio || "",
+            education: user.education || "",
+            socialLinks: user.socialHandles || [""],
+          });
         }
+        
     }
       if(session.data && session.data.user) {
         getUserDetails()
       }
-    }, [session, user, profile, setUser])
+    }, [session, user])
     
   return (
       <div className="flex min-h-[calc(100vh-4rem)] select-none">
