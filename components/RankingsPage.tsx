@@ -45,7 +45,6 @@ const RankingsPage = () => {
 
   useEffect(() => {
     async function getData() {
-      console.log('yes, session has user with userid');
       if(session.data?.user) {
           if(!userData) {
               // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here

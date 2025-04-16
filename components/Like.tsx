@@ -54,7 +54,6 @@ const Like = ({problemURL}: {problemURL: string}) => {
             }
             else {
                 if(res.data?.message && res.data.message === 'Liked') {
-                    console.log('like increased');
                     
                     if(alreadyDisliked) {
                         setAlreadyDisliked(false)

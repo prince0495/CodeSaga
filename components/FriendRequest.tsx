@@ -24,9 +24,6 @@ const FriendRequest = () => {
       }
       else {
         console.log(res.data);
-        /*
-        {id: 'f628dd34-3137-48ec-82dc-809902259714', requesterId: '104302445703045574162', recipientId: '104448331189793380096', status: 'Accepted', createdAt: '2025-03-29T08:01:09.852Z', …}
-        */
 
         deleteFriendRequest(requesterId)
         if(res.data?.requester) {

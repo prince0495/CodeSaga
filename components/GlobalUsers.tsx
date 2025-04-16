@@ -27,7 +27,6 @@ const GlobalUsers = () => {
     const getAllUser = async() => {
       if(user) {
         const res = await axios.get(`/api/friends/allusers/${user.id}`)
-        console.log('all users, ',res.data);
         if(res.data && res.data?.length>0) {
           setAllUsers(res.data)
         }
@@ -50,8 +49,6 @@ const GlobalUsers = () => {
     if(user) {
       const res = await axios.get(`/api/friends/getfriends/${user.id}`);
       if(!res.data?.message) {
-        console.log('logged friends');
-        console.log(res.data);
         for(const friendship of res.data) {
           if(friendship?.recipient && friendship?.recipient?.id === user.id) {
             // addFriends(friendship)
@@ -72,8 +69,6 @@ const GlobalUsers = () => {
     if(user) {
       const res = await axios.get(`/api/friends/friendRequests/${user.id}`);
       if(!res.data?.message) {
-        console.log('friend Requests : ');
-        console.log(res.data);
         for(const friendship of res.data) {
           if(friendship?.requester) {
             addFriendRequest(friendship.requester.id, {name: friendship.requester.name, image: friendship.requester.image})
@@ -91,10 +86,7 @@ const GlobalUsers = () => {
   const getFilteredUsers = async() => {
     if(user && searchName.length > 0) {
       const res = await axios.post(`/api/friends/allusers/${user.id}`, {searchName})
-      console.log('typing done .. ', res.data);
-      if(res.data && res.data?.length >= 0) {
-        console.log('set , ', res.data);
-        
+      if(res.data && res.data?.length >= 0) {        
         setFilteredUsers(res.data)
       }
     }
@@ -105,9 +97,7 @@ const GlobalUsers = () => {
     if(user) {      
       const res = await axios.post(`/api/friends/sendRequest/${user.id}`, {recipientId: recipientId, requesterName: user.name})
       if(res.data && !res.data?.message) {
-        console.log('friend request sent ', res.data);
         if(res.data?.recipient) {
-          console.log('recipient : ' ,res.data.recipient);
           addFriendRequest(res.data?.recipient.id, {name: res.data.recipient.name, image: res.data.recipient.image})
         }
       }

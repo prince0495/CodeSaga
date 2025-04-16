@@ -31,18 +31,12 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
     if(!problemsDifficultyMap[problemURL]) {
       getDifficulty() 
     }
-
-    console.log('run');
     
     if(!socket.current) {            
       socket.current = io(`${process.env.NEXT_PUBLIC_SOCKET_BACKEND_URL}`, {
         transports: ['websocket', 'polling'],
         withCredentials: true
       })
-    }
-    else {
-      console.log('socket is present');
-      
     }
     socket.current.on('connect', ()=> {
       console.log('Connected to server : ', socket.current?.id);
@@ -57,7 +51,6 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
       else {
         router.push(`/problems/${problemURL}/testcases`)
       }
-      console.log(obj);
     })
 
     return () => {
@@ -78,7 +71,6 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
         </div>
           <button
               onClick={()=> {
-                console.log('Clicked');
                 if(!snippets[problemURL]) {
                   console.log('No snippet found for this problem')
                   return;
@@ -104,7 +96,6 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
                 updateResponseLoading(true)
                 // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
                 socket.current.emit('codeRequestQueue', {language: currentLanguage, code: snippets[problemURL][currentLanguage].code, socketId: socket.current.id, problemTitle: problemURL, runnerType: 'run', submissionTime: dateTime, userId: session.data.user.id, problemURL: problemURL, difficulty: problemsDifficultyMap[problemURL], topics: topics})
-                console.log('sent');
               }}
               className="font-semibold text-lg">
                   Run
@@ -118,9 +109,7 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
             </svg>
         </div>
         <button
-          onClick={()=> {
-            console.log('Clicked');
-            
+          onClick={()=> {            
             if(!snippets[problemURL]) {
               console.log('No snippet found for this problem')
               return;
@@ -143,10 +132,8 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
             }
             const dateTime = new Date()
             updateResponseLoading(true)
-            console.log('submission date ',dateTime);
             // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
             socket.current.emit('codeRequestQueue', {language: currentLanguage, code: snippets[problemURL][currentLanguage].code, socketId: socket.current.id, problemTitle: problemURL, runnerType: 'submit', submissionTime: dateTime, userId: session.data.user.id, problemURL: problemURL, difficulty: problemsDifficultyMap[problemURL], topics: topics})
-            console.log('sent submission');
           }}
         className="text-[#28c244] text-lg">Submit</button>
       </div>

@@ -39,7 +39,7 @@ const UserInfoPage = () => {
     if(!e.target.files || !e.target.files[0]) return;
     const file = e.target.files[0];
     if (!file.type.startsWith('image/')) {
-      console.log('File is not an image');
+      alert('File is not an Image')
       return;
     }
     try {
@@ -49,7 +49,6 @@ const UserInfoPage = () => {
       data.append('cloud_name', `${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}`)
       
       const res = await axios.post(`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}`, data)
-      console.log(res.data);
       
       if(res.data?.url && user) {
           const response = await axios.post('/api/user/upload/image', {imageURL: res.data.url, userId: user.id})
@@ -59,13 +58,11 @@ const UserInfoPage = () => {
           }
       }
     } catch (error) {
-      console.log('Error uploading image => ', error);
-      
+      alert("Error while uploading image, try again")
     }
   }
 
   const handleSave = async() => {
-    console.log(profile);
     
     const res = await axios.post('/api/user/profiledata/'+user?.id, {
       profile
@@ -78,12 +75,7 @@ const UserInfoPage = () => {
   
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof ProfileData) => {
-    console.log('handle change called');
-    console.log('{ ...profile, [field]: e.target.value } ', { ...profile, [field]: e.target.value });
-    
     setProfile({ ...profile, [field]: e.target.value });
-    console.log('profile => ', profile);
-    
   };
   
 

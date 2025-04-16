@@ -16,7 +16,6 @@ const Hints = ({hints}: {hints: string[]}) => {
           <div>
               <div className='pl-4 pr-4 flex items-center justify-between hover:cursor-pointer  '
               onClick={()=>{
-                console.log('set index=', index);
                 if(isOpen === index) {
                   setIsOpen(-1)
                 }

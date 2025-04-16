@@ -30,13 +30,11 @@ async function getFilteredProblems(currentPage: number, problemsPerPage: number)
   } catch (error) {
     alert('Either no internet or proxy on your internet, try again with different network')
     console.log(error);
-    
     return []
   }
 }
 
 const ProblemPage = async({page}: {page: string}) => {
-  console.log("page = ",page);
   const problemsPerPage = ITEM_PER_PAGE;
   const currentPage = parseInt(page)
   const problems: FilteredProblems[] = await getFilteredProblems(currentPage, problemsPerPage)

@@ -27,7 +27,6 @@ export async function GET(req: NextRequest, context: { params: Promise<{ slug?: 
                 language: true
             }
         })
-        console.log(submissions);
         return NextResponse.json(submissions)
     } catch (error) {
         return NextResponse.json({'message': 'Error fetching submissions', error: error}, {status: 500 })

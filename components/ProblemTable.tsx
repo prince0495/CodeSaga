@@ -39,7 +39,6 @@ const ProblemTable: React.FC<ProblemTableProps> = ({
 
   useEffect(() => {
     async function getStatus() {
-      console.log('called getStatus');
       if(session.status === 'authenticated') {
         // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
         const res = await axios.get(`/api/getStatus/${session.data?.user.id}`)    
@@ -55,9 +54,7 @@ const ProblemTable: React.FC<ProblemTableProps> = ({
   useEffect(() => {
     async function getSubmissions() {
       const res = await axios.get(`/api/getAcceptance/${currentPage}/${problemsPerPage}`)
-      if(res.data && res.data?.problems) {
-        console.log('adding acceptance rate for : ',res.data.problems);
-        
+      if(res.data && res.data?.problems) {        
         for(const p of res.data.problems) {
           addAcceptanceRate(p.problemURL, {totalSubmissions: p.totalSubmissions , acceptedSubmissions: p.acceptedSubmissions})
         }

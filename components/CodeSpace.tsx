@@ -33,7 +33,6 @@ const CodeSpace = ({ problemURL }: { problemURL: string }) => {
     if (!isHydrated || snippets[problemURL]) return;
 
     try {
-      console.log('server request to get code snippet');
       const res = await axios.get(`/api/boiler/${problemURL}`);
       addSnippet(problemURL, 'java', { language: 'java', code: res.data.boilerPlates[0] });
       addSnippet(problemURL, 'cpp', { language: 'cpp', code: res.data.boilerPlates[1] });
@@ -54,13 +53,10 @@ const CodeSpace = ({ problemURL }: { problemURL: string }) => {
     }
 
     typingTimeout.current = setTimeout(() => {
-      console.log('code changed : \n', newCode);
       updateSnippet(problemURL, selectedLanguage, { language: selectedLanguage, code: newCode });
       setSaved('Saved');
     }, 1200);
   }, [problemURL, selectedLanguage, updateSnippet]);
-
-  console.log('page is refreshed');
 
   return (
     <div>

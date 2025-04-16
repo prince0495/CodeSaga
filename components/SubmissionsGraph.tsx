@@ -25,9 +25,7 @@ export default function SubmissionsGraph() {
           console.log('user && !monthlyActivity');
           
           const response = await fetch(`/api/activity/monthly/${user.id}`);
-          const result = await response.json();
-          console.log(result);
-          
+          const result = await response.json();          
           if (result?.dailyActivity) {
             setMonthlyActivity(result);
           }
