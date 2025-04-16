@@ -79,6 +79,8 @@ const UserInfoPage = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof ProfileData) => {
     console.log('handle change called');
+    console.log('{ ...profile, [field]: e.target.value } ', { ...profile, [field]: e.target.value });
+    
     setProfile({ ...profile, [field]: e.target.value });
     console.log('profile => ', profile);
     
