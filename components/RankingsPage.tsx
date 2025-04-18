@@ -86,7 +86,6 @@ const RankingsPage = () => {
             <div className="flex items-center gap-4 p-4">
               <Avatar src={friend.image} alt={friend.name} className="w-16 h-16" />
               <div>
-                <p className="text-sm text-gray-600">Points: <span className="font-medium">{friend.points}</span></p>
                 <p className="text-sm text-gray-600">Current Streak: <span className="font-medium">{friend.currentStreak}</span></p>
                 <p className="text-sm text-gray-600">Max Streak: <span className="font-medium">{friend.currentStreak > friend.maxStreak ? friend.currentStreak : friend.maxStreak}</span></p>
               </div>

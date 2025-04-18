@@ -58,6 +58,7 @@ const UserInfoPage = () => {
           }
       }
     } catch (error) {
+      console.log(error);
       alert("Error while uploading image, try again")
     }
   }
