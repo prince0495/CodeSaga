@@ -88,7 +88,7 @@ const RankingsPage = () => {
               <div>
                 <p className="text-sm text-gray-600">Points: <span className="font-medium">{friend.points}</span></p>
                 <p className="text-sm text-gray-600">Current Streak: <span className="font-medium">{friend.currentStreak}</span></p>
-                <p className="text-sm text-gray-600">Max Streak: <span className="font-medium">{friend.maxStreak}</span></p>
+                <p className="text-sm text-gray-600">Max Streak: <span className="font-medium">{friend.currentStreak > friend.maxStreak ? friend.currentStreak : friend.maxStreak}</span></p>
               </div>
             </div>
           </Card>
