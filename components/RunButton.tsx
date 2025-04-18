@@ -48,6 +48,9 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
       if(obj.runnerType === 'submit') {
         router.push(`/problems/${problemURL}/submissions`)
       }
+      else {
+        router.push(`/problems/${problemURL}/testcases`)
+      }
     })
 
     return () => {
@@ -93,7 +96,6 @@ const RunButton = ({problemURL, topics}: {problemURL: string, topics: string[] |
                 updateResponseLoading(true)
                 // @ts-expect-error:Not able to tell ts compiler that i provided it at runtime while signin otherwise user cannot reach here
                 socket.current.emit('codeRequestQueue', {language: currentLanguage, code: snippets[problemURL][currentLanguage].code, socketId: socket.current.id, problemTitle: problemURL, runnerType: 'run', submissionTime: dateTime, userId: session.data.user.id, problemURL: problemURL, difficulty: problemsDifficultyMap[problemURL], topics: topics})
-                router.push(`/problems/${problemURL}/testcases`)
               }}
               className="font-semibold text-lg">
                   Run
